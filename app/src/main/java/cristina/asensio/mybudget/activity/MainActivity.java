@@ -13,7 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.sql.SQLException;
+import java.util.List;
+
 import cristina.asensio.mybudget.R;
+import cristina.asensio.mybudget.model.Expense;
+import cristina.asensio.mybudget.model.UtilDAOImpl;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +34,17 @@ public class MainActivity extends AppCompatActivity
 
         getWidgets();
         init();
+
+        try {
+            final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(getApplicationContext());
+            final List<Expense> expenses = utilDAOImpl.lookupExpenses();
+
+            for(Expense expense : expenses) {
+                System.out.println("expense : " + expense.getDescription());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
         this.fab.setOnClickListener(new View.OnClickListener() {
