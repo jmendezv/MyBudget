@@ -1,4 +1,4 @@
-package cristina.asensio.mybudget;
+package cristina.asensio.mybudget.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import cristina.asensio.mybudget.R;
+import cristina.asensio.mybudget.model.Expense;
+import cristina.asensio.mybudget.model.UtilDAOImpl;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,10 +35,22 @@ public class MainActivity extends AppCompatActivity
         getWidgets();
         init();
 
+        try {
+            final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(getApplicationContext());
+            final List<Expense> expenses = utilDAOImpl.lookupExpenses();
+
+            for(Expense expense : expenses) {
+                System.out.println("expense : " + expense.getDescription());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         this.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // TODO: Add new Expense
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
@@ -63,7 +82,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -87,6 +106,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //TODO: Go to Settings
             return true;
         }
 
@@ -100,7 +120,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_nav_stadistics) {
-
+            // TODO: Go to Stadistics activity
         }
 
         this.drawer.closeDrawer(GravityCompat.START);
