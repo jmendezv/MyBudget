@@ -7,7 +7,7 @@
         <item
             android:id="@+id/menu_nav_stadistics"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Stadistics" />
+            android:title="@string/nav_drawer_menu_stadistics" />
 
     </group>
 

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MyBudget</string>
+
+    <string name="navigation_drawer_open">Abrir Menu Lateral</string>
+    <string name="navigation_drawer_close">Cerrar Menu Lateral</string>
+
+    <string name="action_settings">Ajustes</string>
+
+    <!-- Navigation Drawer Menu -->
+    <string name="nav_drawer_subheadline">Autora: Cristina Asensio</string>
+    <string name="nav_drawer_menu_stadistics">Estadísticas</string>
+
+</resources>
