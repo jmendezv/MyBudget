@@ -5,4 +5,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <!-- Navigation Drawer Menu -->
+    <string name="nav_drawer_subheadline">Author: Cristina Asensio</string>
+    <string name="nav_drawer_menu_stadistics">Estadistics</string>
+
 </resources>
