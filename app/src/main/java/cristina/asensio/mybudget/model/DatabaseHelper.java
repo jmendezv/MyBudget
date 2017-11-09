@@ -35,11 +35,40 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
         try {
             TableUtils.createTable(connectionSource, Expense.class);
-            
+            populateExpenses();
         } catch (Exception e) {
             Log.e(DatabaseHelper.class.getName(), e.toString());
         }
 
+    }
+
+    private void populateExpenses() throws SQLException, ParseException {
+        final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        expenseDao = getExpenseDao();
+
+        Expense expense = new Expense(200, "casa");
+        expense.setDate(formatter.parse("2017-10-01"));
+        expenseDao.create(expense);
+
+        expense = new Expense(34.40f, "gym");
+        expense.setDate(formatter.parse("2017-10-05"));
+        expenseDao.create(expense);
+
+        expense = new Expense(99.60f, "tren");
+        expense.setDate(formatter.parse("2017-10-10"));
+        expenseDao.create(expense);
+
+        expense = new Expense(200, "casa");
+        expense.setDate(formatter.parse("2017-11-01"));
+        expenseDao.create(expense);
+
+        expense = new Expense(34.40f, "gym");
+        expense.setDate(formatter.parse("2017-11-05"));
+        expenseDao.create(expense);
+
+        expense = new Expense(99.60f, "tren");
+        expense.setDate(formatter.parse("2017-11-10"));
+        expenseDao.create(expense);
     }
 
     Dao<Expense, Integer> getExpenseDao() throws SQLException{
