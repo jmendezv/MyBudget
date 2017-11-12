@@ -1,6 +1,7 @@
 package cristina.asensio.mybudget.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +9,13 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import cristina.asensio.mybudget.Constants;
 import cristina.asensio.mybudget.R;
 import cristina.asensio.mybudget.model.Expense;
+import cristina.asensio.mybudget.model.UtilDAOImpl;
 
 /**
  * Custom Adapter for the Expenses list displayed in Main Activity
@@ -42,7 +45,7 @@ public class ExpenseAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Expense getItem(int position) {
         return this.expenses.get(position);
     }
 
@@ -61,7 +64,33 @@ public class ExpenseAdapter extends BaseAdapter {
 
         initWidgets(view);
         displayExpenseInList(position);
+
+        this.btDeleteExpense.setOnClickListener(btView -> {
+            final Expense expenseToDelete = getItem(position);
+
+            try {
+                deleteExpenseFromDatabase(expenseToDelete);
+                deleteExpenseFromExpensesList(position);
+                refreshMainActivityAdapter();
+            } catch (SQLException e) {
+                Log.e(this.context.getApplicationInfo().className, e.toString());
+            }
+        });
+
         return view;
+    }
+
+    private void refreshMainActivityAdapter() {
+        notifyDataSetChanged();
+    }
+
+    private void deleteExpenseFromExpensesList(int position) {
+        this.expenses.remove(position);
+    }
+
+    private void deleteExpenseFromDatabase(Expense expenseToDelete) throws SQLException {
+        final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(this.context);
+        utilDAOImpl.deleteExpense(expenseToDelete);
     }
 
     private void displayExpenseInList(int position) {
