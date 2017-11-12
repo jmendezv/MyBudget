@@ -30,14 +30,14 @@ public class UtilDAOImpl {
     }
 
     private DatabaseHelper getHelper() {
-        if(databaseHelper == null) {
+        if (databaseHelper == null) {
             databaseHelper = OpenHelperManager.getHelper(context, DatabaseHelper.class);
         }
         return databaseHelper;
     }
 
     public void onDestroy() {
-        if(databaseHelper != null) {
+        if (databaseHelper != null) {
             OpenHelperManager.releaseHelper();
             databaseHelper = null;
         }
@@ -46,5 +46,9 @@ public class UtilDAOImpl {
     public List<Expense> lookupExpenses() throws SQLException {
         final QueryBuilder<Expense, Integer> queryBuilder = expenseDao.queryBuilder();
         return queryBuilder.query();
+    }
+
+    public void deleteExpense(Expense expense) throws SQLException {
+        this.expenseDao.delete(expense);
     }
 }
