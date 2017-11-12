@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
 
     private List<Expense> expenses;
     private ExpenseAdapter expenseAdapter;
+    private float totalAvailable;
 
 
     @Override
@@ -53,8 +54,9 @@ public class MainActivity extends AppCompatActivity
 
         getWidgets();
         init();
+        getTotalAvailableMoneyRemovingExpenses();
 
-        tvTotalAvailable.setText(Constants.TOTAL_AVAILABLE_DEFAULT_VALUE + Constants.EURO);
+        tvTotalAvailable.setText(String.format("%.2f %s", this.totalAvailable, Constants.EURO));
 
         this.fab.setOnClickListener(view -> {
             final Intent intent = new Intent(getBaseContext(), AddExpenseActivity.class);
@@ -86,6 +88,12 @@ public class MainActivity extends AppCompatActivity
         return Float.parseFloat(String.valueOf(tvTotalAvailable.getText()).replace(Constants.EURO, ""));
     }
 
+    private void getTotalAvailableMoneyRemovingExpenses() {
+        for (final Expense expense : this.expenses) {
+            this.totalAvailable = this.totalAvailable - expense.getQuantity();
+        }
+    }
+
     private void getExpensesFromDatabase() throws SQLException {
         final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(getApplicationContext());
         this.expenses = utilDAOImpl.lookupExpenses();
@@ -104,6 +112,7 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         setSupportActionBar(this.toolbar);
         setNavigationDrawer(this.toolbar);
+        this.totalAvailable = Constants.TOTAL_AVAILABLE_DEFAULT_VALUE;
         this.expenseAdapter = new ExpenseAdapter(this, this.expenses);
         this.lvExpenses.setAdapter(this.expenseAdapter);
     }
