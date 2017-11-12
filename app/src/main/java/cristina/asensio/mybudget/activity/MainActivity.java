@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     private List<Expense> expenses;
     private ExpenseAdapter adapter;
+    private float totalAvailable;
 
 
     @Override
@@ -55,8 +56,9 @@ public class MainActivity extends AppCompatActivity
 
         getWidgets();
         init();
+        getTotalAvailableMoneyRemovingExpenses();
 
-        tvTotalAvailable.setText(Constants.TOTAL_AVAILABLE_DEFAULT_VALUE + Constants.EURO);
+        tvTotalAvailable.setText(String.format("%.2f %s", this.totalAvailable, Constants.EURO));
 
         this.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +69,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    private void getTotalAvailableMoneyRemovingExpenses() {
+        for (final Expense expense : this.expenses) {
+            this.totalAvailable = this.totalAvailable - expense.getQuantity();
+        }
     }
 
     private void getExpensesFromDatabase() throws SQLException {
@@ -87,6 +95,7 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         setSupportActionBar(this.toolbar);
         setNavigationDrawer(this.toolbar);
+        this.totalAvailable = Constants.TOTAL_AVAILABLE_DEFAULT_VALUE;
         this.adapter = new ExpenseAdapter(this, this.expenses);
         this.lvExpenses.setAdapter(this.adapter);
     }
