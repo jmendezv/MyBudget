@@ -14,6 +14,7 @@ import java.util.List;
 
 import cristina.asensio.mybudget.Constants;
 import cristina.asensio.mybudget.R;
+import cristina.asensio.mybudget.activity.MainActivity;
 import cristina.asensio.mybudget.model.Expense;
 import cristina.asensio.mybudget.model.UtilDAOImpl;
 
@@ -72,12 +73,24 @@ public class ExpenseAdapter extends BaseAdapter {
                 deleteExpenseFromDatabase(expenseToDelete);
                 deleteExpenseFromExpensesList(position);
                 refreshMainActivityAdapter();
+                removeExpenseFromTotalAvailableTextView(expenseToDelete.getQuantity());
             } catch (SQLException e) {
                 Log.e(this.context.getApplicationInfo().className, e.toString());
             }
         });
 
         return view;
+    }
+
+    private void removeExpenseFromTotalAvailableTextView(double expenseToRemove) {
+        final double currentTotalAvailable = getCurrentTotalAvailable();
+        MainActivity.tvTotalAvailable.setText(String.format("%.2f %s",currentTotalAvailable + expenseToRemove, Constants.EURO));
+    }
+
+    private float getCurrentTotalAvailable() {
+        final String currentAvailableWithCoin = String.valueOf(MainActivity.tvTotalAvailable.getText());
+        final String currentAvailableWithoutCoin = currentAvailableWithCoin.replace(Constants.EURO, "");
+        return Float.parseFloat(currentAvailableWithoutCoin);
     }
 
     private void refreshMainActivityAdapter() {
