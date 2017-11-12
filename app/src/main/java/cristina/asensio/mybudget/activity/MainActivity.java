@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private DrawerLayout drawer;
-    private TextView tvTotalAvailable;
+    public static TextView tvTotalAvailable;
     private ListView lvExpenses;
 
     private List<Expense> expenses;
