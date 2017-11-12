@@ -3,6 +3,7 @@ package cristina.asensio.mybudget.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import cristina.asensio.mybudget.Constants;
 import cristina.asensio.mybudget.R;
+import cristina.asensio.mybudget.adapter.ExpenseAdapter;
 import cristina.asensio.mybudget.model.Expense;
 import cristina.asensio.mybudget.model.UtilDAOImpl;
 
@@ -34,8 +36,9 @@ public class MainActivity extends AppCompatActivity
     private DrawerLayout drawer;
     private TextView tvTotalAvailable;
     private ListView lvExpenses;
-    private ArrayAdapter<String> adapter;
 
+    private List<Expense> expenses;
+    private ExpenseAdapter adapter;
 
 
     @Override
@@ -43,22 +46,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        try {
+            getExpensesFromDatabase();
+
+        } catch (SQLException e) {
+            Log.e(MainActivity.class.getName(), e.toString());
+        }
+
         getWidgets();
         init();
 
         tvTotalAvailable.setText(Constants.TOTAL_AVAILABLE_DEFAULT_VALUE + Constants.EURO);
-
-        try {
-            final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(getApplicationContext());
-            final List<Expense> expenses = utilDAOImpl.lookupExpenses();
-            final List<String> expenses1 = Arrays.asList("item1", "item2", "item3");
-            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1 ,expenses1);
-            lvExpenses.setAdapter(adapter);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
 
         this.fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +67,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+    }
 
+    private void getExpensesFromDatabase() throws SQLException {
+        final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(getApplicationContext());
+        this.expenses = utilDAOImpl.lookupExpenses();
     }
 
     private void setNavigationDrawer(Toolbar toolbar) {
@@ -85,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         setSupportActionBar(this.toolbar);
         setNavigationDrawer(this.toolbar);
+        this.adapter = new ExpenseAdapter(this, this.expenses);
+        this.lvExpenses.setAdapter(this.adapter);
     }
 
     private void getWidgets() {

@@ -7,8 +7,10 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="text_size_twenty">20sp</dimen>
+    <dimen name="text_size_twenty_five">25sp</dimen>
     <dimen name="text_size_seventy">70sp</dimen>
 
+    <dimen name="size_twenty">20dp</dimen>
     <dimen name="size_fifty">50dp</dimen>
 
 </resources>
