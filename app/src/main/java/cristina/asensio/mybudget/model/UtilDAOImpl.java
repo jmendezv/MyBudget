@@ -51,4 +51,8 @@ public class UtilDAOImpl {
     public void deleteExpense(Expense expense) throws SQLException {
         this.expenseDao.delete(expense);
     }
+
+    public void addExpense(Expense expense) throws SQLException {
+        this.expenseDao.create(expense);
+    }
 }
