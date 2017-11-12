@@ -12,10 +12,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
+import cristina.asensio.mybudget.Constants;
 import cristina.asensio.mybudget.R;
 import cristina.asensio.mybudget.model.Expense;
 import cristina.asensio.mybudget.model.UtilDAOImpl;
@@ -26,6 +32,11 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private DrawerLayout drawer;
+    private TextView tvTotalAvailable;
+    private ListView lvExpenses;
+    private ArrayAdapter<String> adapter;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +46,15 @@ public class MainActivity extends AppCompatActivity
         getWidgets();
         init();
 
+        tvTotalAvailable.setText(Constants.TOTAL_AVAILABLE_DEFAULT_VALUE + Constants.EURO);
+
         try {
             final UtilDAOImpl utilDAOImpl = new UtilDAOImpl(getApplicationContext());
             final List<Expense> expenses = utilDAOImpl.lookupExpenses();
+            final List<String> expenses1 = Arrays.asList("item1", "item2", "item3");
+            adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1 ,expenses1);
+            lvExpenses.setAdapter(adapter);
 
-            for(Expense expense : expenses) {
-                System.out.println("expense : " + expense.getDescription());
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,11 +91,12 @@ public class MainActivity extends AppCompatActivity
         this.toolbar = (Toolbar) findViewById(R.id.toolbar);
         this.fab = (FloatingActionButton) findViewById(R.id.fab);
         this.drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        this.lvExpenses = (ListView) findViewById(R.id.lvExpenses);
+        this.tvTotalAvailable = (TextView) findViewById(R.id.tvTotalAvailable);
     }
 
     @Override
     public void onBackPressed() {
-        this.drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
