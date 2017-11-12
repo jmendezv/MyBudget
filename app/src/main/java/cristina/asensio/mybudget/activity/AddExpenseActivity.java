@@ -23,8 +23,15 @@ public class AddExpenseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
 
+        getWidgets();
 
 
+    }
+
+    private void getWidgets() {
+        this.etExpenseQuantity = (EditText) findViewById(R.id.etExpenseQuantity);
+        this.etExpenseDescription = (EditText) findViewById(R.id.etExpenseDescription);
+        this.btAddExpense = (Button) findViewById(R.id.btAddExpense);
     }
 
 }
