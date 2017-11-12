@@ -1,24 +1,20 @@
 package cristina.asensio.mybudget.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.sql.SQLException;
 
+import cristina.asensio.mybudget.Constants;
 import cristina.asensio.mybudget.R;
 import cristina.asensio.mybudget.model.Expense;
 import cristina.asensio.mybudget.model.UtilDAOImpl;
 
 public class AddExpenseActivity extends AppCompatActivity {
-
-    private static final int NOTIFICATION_ID = 0;
 
     private EditText etExpenseQuantity, etExpenseDescription;
     private Button btAddExpense;
@@ -38,16 +34,21 @@ public class AddExpenseActivity extends AppCompatActivity {
                 final UtilDAOImpl dao = new UtilDAOImpl(getApplicationContext());
                 final Expense newExpense = new Expense(expenseQuantity, expenseDescription);
                 dao.addExpense(newExpense);
-
-                finish();
+                sendNewExpenseDataToMainActivity(newExpense);
 
             } catch (SQLException e) {
                 Log.e(getApplicationInfo().className, e.toString());
             }
 
         });
+    }
 
-
+    private void sendNewExpenseDataToMainActivity(Expense expense) {
+        final Intent intent = getIntent();
+        intent.putExtra(Constants.NEW_EXPENSE_QUANTITY_KEY, expense.getQuantity());
+        intent.putExtra(Constants.NEW_EXPENSE_DESCRIPTION_KEY, expense.getDescription());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private void getWidgets() {

@@ -3,9 +3,7 @@ package cristina.asensio.mybudget.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,13 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.List;
 
 import cristina.asensio.mybudget.Constants;
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     private ListView lvExpenses;
 
     private List<Expense> expenses;
-    private ExpenseAdapter adapter;
+    private ExpenseAdapter expenseAdapter;
 
 
     @Override
@@ -61,14 +56,34 @@ public class MainActivity extends AppCompatActivity
 
         tvTotalAvailable.setText(Constants.TOTAL_AVAILABLE_DEFAULT_VALUE + Constants.EURO);
 
-        this.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(getBaseContext(), AddExpenseActivity.class);
-                startActivityForResult(intent, ADD_NEW_EXPENSE_REQUEST_CODE);
-            }
+        this.fab.setOnClickListener(view -> {
+            final Intent intent = new Intent(getBaseContext(), AddExpenseActivity.class);
+            startActivityForResult(intent, ADD_NEW_EXPENSE_REQUEST_CODE);
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_NEW_EXPENSE_REQUEST_CODE && resultCode == RESULT_OK) {
+            final float newExpenseQuantity = data.getFloatExtra(Constants.NEW_EXPENSE_QUANTITY_KEY, Constants.DEFAULT_QUANTITY);
+            final String newExpenseDescription = data.getStringExtra(Constants.NEW_EXPENSE_DESCRIPTION_KEY);
+            this.expenseAdapter.notifyDataSetChanged();
+            addExpenseToTotalAvailable(newExpenseQuantity, newExpenseDescription);
+        }
+    }
+
+    public void addExpenseToTotalAvailable(double newExpense, String expenseDescription) {
+        final String decriptionDisplayed = expenseDescription;
+        final float currentAvailableAmount = getTotalAvailableQuantity();
+        double newAvailableAmount = currentAvailableAmount - newExpense;
+        tvTotalAvailable.setText(String.format("%.2f %s", newAvailableAmount, Constants.EURO));
+    }
+
+    private float getTotalAvailableQuantity() {
+        return Float.parseFloat(String.valueOf(tvTotalAvailable.getText()).replace(Constants.EURO, ""));
     }
 
     private void getExpensesFromDatabase() throws SQLException {
@@ -89,8 +104,8 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         setSupportActionBar(this.toolbar);
         setNavigationDrawer(this.toolbar);
-        this.adapter = new ExpenseAdapter(this, this.expenses);
-        this.lvExpenses.setAdapter(this.adapter);
+        this.expenseAdapter = new ExpenseAdapter(this, this.expenses);
+        this.lvExpenses.setAdapter(this.expenseAdapter);
     }
 
     private void getWidgets() {
