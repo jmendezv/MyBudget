@@ -1,5 +1,6 @@
 package cristina.asensio.mybudget.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,8 @@ import cristina.asensio.mybudget.model.UtilDAOImpl;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int ADD_NEW_EXPENSE_REQUEST_CODE = 100;
+
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private DrawerLayout drawer;
@@ -61,9 +64,8 @@ public class MainActivity extends AppCompatActivity
         this.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Add new Expense
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final Intent intent = new Intent(getBaseContext(), AddExpenseActivity.class);
+                startActivityForResult(intent, ADD_NEW_EXPENSE_REQUEST_CODE);
             }
         });
 
