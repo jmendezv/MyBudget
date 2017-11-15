@@ -46,7 +46,6 @@ public class AddExpenseActivity extends AppCompatActivity {
     private void sendNewExpenseDataToMainActivity(Expense expense) {
         final Intent intent = getIntent();
         intent.putExtra(Constants.NEW_EXPENSE_QUANTITY_KEY, expense.getQuantity());
-        intent.putExtra(Constants.NEW_EXPENSE_DESCRIPTION_KEY, expense.getDescription());
         setResult(RESULT_OK, intent);
         finish();
     }
