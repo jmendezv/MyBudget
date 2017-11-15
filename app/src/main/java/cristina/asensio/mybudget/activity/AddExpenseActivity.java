@@ -1,8 +1,11 @@
 package cristina.asensio.mybudget.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +18,8 @@ import cristina.asensio.mybudget.model.Expense;
 import cristina.asensio.mybudget.model.UtilDAOImpl;
 
 public class AddExpenseActivity extends AppCompatActivity {
+
+    private static final int NOTIFICATION_ID = 0;
 
     private EditText etExpenseQuantity, etExpenseDescription;
     private Button btAddExpense;
@@ -51,10 +56,33 @@ public class AddExpenseActivity extends AppCompatActivity {
         finish();
     }
 
+    private void sendNotification() {
+        final Notification notification = new NotificationCompat.Builder(this)
+                .setSmallIcon(android.R.drawable.ic_menu_report_image)
+                .setContentTitle(getString(R.string.notification_title))
+                .setContentText(getString(R.string.notification_description) + " " + Constants.MINIMUM_FOR_SENDING_NOTIFICATION + Constants.EURO)
+                .build();
+        final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(NOTIFICATION_ID, notification);
+    }
+
     private void getWidgets() {
         this.etExpenseQuantity = (EditText) findViewById(R.id.etExpenseQuantity);
         this.etExpenseDescription = (EditText) findViewById(R.id.etExpenseDescription);
         this.btAddExpense = (Button) findViewById(R.id.btAddExpense);
     }
 
+    private float getTotalAvailableQuantity() {
+        return Float.parseFloat(String.valueOf(MainActivity.tvTotalAvailable.getText()).replace(Constants.EURO, ""));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // TODO: Retrieve the minimum quantity from settings
+        if(getTotalAvailableQuantity() < Constants.MINIMUM_FOR_SENDING_NOTIFICATION) {
+            sendNotification();
+        }
+    }
 }
