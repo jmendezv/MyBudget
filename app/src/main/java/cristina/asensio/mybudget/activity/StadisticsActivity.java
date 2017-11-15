@@ -5,12 +5,15 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.Highlight;
 import com.github.mikephil.charting.utils.PercentFormatter;
 
 import java.sql.SQLException;
@@ -50,6 +53,29 @@ public class StadisticsActivity extends AppCompatActivity {
         configureHole();
         enableChartRotation();
         addDataToChart();
+        handleChartOnTouch();
+    }
+
+    private void handleChartOnTouch() {
+        this.chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+
+            @Override
+            public void onValueSelected(Entry entry, int dataSetIndex, Highlight hightlight) {
+                if (entry == null) {
+                    return;
+                }
+                Toast.makeText(
+                        StadisticsActivity.this,
+                        xData[entry.getXIndex()] + " " + entry.getVal(),
+                        Toast.LENGTH_SHORT)
+                        .show();
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
     }
 
     private void addDataToChart() {
