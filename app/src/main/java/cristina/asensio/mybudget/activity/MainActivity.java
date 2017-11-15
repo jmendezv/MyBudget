@@ -162,7 +162,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_nav_stadistics) {
-            // TODO: Go to Stadistics activity
+            final Intent stadisticsIntent = new Intent(getApplicationContext(), StadisticsActivity.class);
+            startActivity(stadisticsIntent);
         }
 
         this.drawer.closeDrawer(GravityCompat.START);

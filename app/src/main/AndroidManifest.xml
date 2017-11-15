@@ -22,7 +22,8 @@
         <activity
             android:name=".activity.AddExpenseActivity"
             android:label="@string/title_activity_add_expense"
-            android:theme="@style/addExpense"></activity>
+            android:theme="@style/addExpense" />
+        <activity android:name=".activity.StadisticsActivity"></activity>
     </application>
 
 </manifest>
