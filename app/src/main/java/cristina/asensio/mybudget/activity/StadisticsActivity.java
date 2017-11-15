@@ -27,9 +27,6 @@ import cristina.asensio.mybudget.model.UtilDAOImpl;
 
 public class StadisticsActivity extends AppCompatActivity {
 
-    private static final String PIE_CHART_DESCRIPTION = "How much left this month is there";
-    private static final String X_DATA_VALUE_1 = "Spent";
-    private static final String X_DATA_VALUE_2 = "Available";
     private static final int HOLE_RADIUS = 10;
     private static final int ROTATION_ANGLE = 0;
     private static final int SLICE_SPACE = 3;
@@ -40,7 +37,7 @@ public class StadisticsActivity extends AppCompatActivity {
     private UtilDAOImpl utilDAO;
     private PieChart chart;
     private List<Expense> currentMonthExpenses;
-    private String[] xData = {X_DATA_VALUE_1, X_DATA_VALUE_2};
+    private String[] xData = new String[2];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +84,8 @@ public class StadisticsActivity extends AppCompatActivity {
         }
 
         final ArrayList<String> xValues = new ArrayList<>();
+        this.xData[0] = getResources().getString(R.string.spent);
+        this.xData[1] = getResources().getString(R.string.available);
 
         for (int i = 0; i < xData.length; i++) {
             xValues.add(xData[i]);
@@ -159,7 +158,7 @@ public class StadisticsActivity extends AppCompatActivity {
 
     private void configurePieChart() {
         this.chart.setUsePercentValues(true);
-        this.chart.setDescription(PIE_CHART_DESCRIPTION);
+        this.chart.setDescription(getResources().getString(R.string.pie_chart_description));
     }
 
     private void addPieChartToLayout() {

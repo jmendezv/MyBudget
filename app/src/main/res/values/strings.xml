@@ -18,5 +18,11 @@
     <string name="notification_title">My Budget Application</string>
     <string name="notification_description">Your budget is below </string>
 
+    <!-- Stadistics Activity -->
+    <string name="pie_chart_description">How much left this month is there</string>
+    <string name="spent">Spent</string>
+    <string name="available">Available</string>
+
+
 
 </resources>
