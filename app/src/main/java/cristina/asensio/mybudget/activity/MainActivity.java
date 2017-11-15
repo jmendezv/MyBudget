@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity
 
         if (requestCode == ADD_NEW_EXPENSE_REQUEST_CODE && resultCode == RESULT_OK) {
             final float newExpenseQuantity = data.getFloatExtra(Constants.NEW_EXPENSE_QUANTITY_KEY, Constants.DEFAULT_QUANTITY);
-            this.expenseAdapter.notifyDataSetChanged();
             addExpenseToTotalAvailable(newExpenseQuantity);
+            this.expenseAdapter.notifyDataSetChanged();
         }
     }
 
