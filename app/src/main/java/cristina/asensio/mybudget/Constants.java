@@ -6,5 +6,4 @@ public interface Constants {
     float DEFAULT_QUANTITY = 0.0f;
     String EURO = "€";
     String NEW_EXPENSE_QUANTITY_KEY = "new_expense_quantity_key";
-    String NEW_EXPENSE_DESCRIPTION_KEY = "new_expense_description_key";
 }

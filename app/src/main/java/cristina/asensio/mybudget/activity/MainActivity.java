@@ -71,14 +71,12 @@ public class MainActivity extends AppCompatActivity
 
         if (requestCode == ADD_NEW_EXPENSE_REQUEST_CODE && resultCode == RESULT_OK) {
             final float newExpenseQuantity = data.getFloatExtra(Constants.NEW_EXPENSE_QUANTITY_KEY, Constants.DEFAULT_QUANTITY);
-            final String newExpenseDescription = data.getStringExtra(Constants.NEW_EXPENSE_DESCRIPTION_KEY);
+            addExpenseToTotalAvailable(newExpenseQuantity);
             this.expenseAdapter.notifyDataSetChanged();
-            addExpenseToTotalAvailable(newExpenseQuantity, newExpenseDescription);
         }
     }
 
-    public void addExpenseToTotalAvailable(double newExpense, String expenseDescription) {
-        final String decriptionDisplayed = expenseDescription;
+    public void addExpenseToTotalAvailable(double newExpense) {
         final float currentAvailableAmount = getTotalAvailableQuantity();
         double newAvailableAmount = currentAvailableAmount - newExpense;
         tvTotalAvailable.setText(String.format("%.2f %s", newAvailableAmount, Constants.EURO));
