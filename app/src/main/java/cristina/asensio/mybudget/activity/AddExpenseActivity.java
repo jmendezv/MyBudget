@@ -61,7 +61,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         final Notification notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(android.R.drawable.ic_menu_report_image)
                 .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_description) + " " + Constants.MINIMUM_FOR_SENDING_NOTIFICATION + Constants.EURO)
+                .setContentText(getString(R.string.notification_description) + " " + getMinimumForSendingNotificationfromSettings() + Constants.EURO)
                 .build();
         final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
