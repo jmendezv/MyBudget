@@ -37,6 +37,8 @@ import java.util.List;
  */
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
+    public static String PREFERENCES_TOTAL_AVAILABLE_KEY = "preferences_total_available";
+
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
