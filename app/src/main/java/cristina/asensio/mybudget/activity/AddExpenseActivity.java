@@ -88,7 +88,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private float getMinimumForSendingNotificationfromSettings() {
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return Float.parseFloat(sharedPrefs.getString(SettingsActivity.PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY, "100"));
+        return Float.parseFloat(sharedPrefs.getString(SettingsActivity.PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY, Constants.MINIMUM_FOR_SENDING_NOTIFICATION_TEXT));
 
     }
 }
