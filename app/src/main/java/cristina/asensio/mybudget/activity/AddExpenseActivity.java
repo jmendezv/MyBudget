@@ -3,7 +3,9 @@ package cristina.asensio.mybudget.activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -79,9 +81,14 @@ public class AddExpenseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // TODO: Retrieve the minimum quantity from settings
-        if(getTotalAvailableQuantity() < Constants.MINIMUM_FOR_SENDING_NOTIFICATION) {
+        if (getTotalAvailableQuantity() < getMinimumForSendingNotificationfromSettings()) {
             sendNotification();
         }
+    }
+
+    private float getMinimumForSendingNotificationfromSettings() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        return Float.parseFloat(sharedPrefs.getString(SettingsActivity.PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY, "100"));
+
     }
 }

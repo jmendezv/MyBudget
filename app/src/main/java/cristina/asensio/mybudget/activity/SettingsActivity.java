@@ -38,6 +38,7 @@ import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
 
     public static String PREFERENCES_TOTAL_AVAILABLE_KEY = "preferences_total_available";
+    public static String PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY = "notification_minimum_quantity";
 
     /**
      * A preference value change listener that updates the preference's summary
