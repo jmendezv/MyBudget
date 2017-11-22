@@ -33,15 +33,10 @@
     <string name="settings_default_value_summary">Default is 660€</string>
 
 
-    <!-- Example settings for Notifications -->
+    <!-- Pref Notification -->
     <string name="pref_header_notifications">Notifications</string>
-
     <string name="pref_title_new_message_notifications">New message notifications</string>
-
-    <string name="pref_title_ringtone">Ringtone</string>
-    <string name="pref_ringtone_silent">Silent</string>
-
-    <string name="pref_title_vibrate">Vibrate</string>
-
+    <string name="settings_notification_summary">Default is 100€</string>
+    <string name="settings_notification_title">Minimum quantity for notification</string>
 
 </resources>
