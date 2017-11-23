@@ -61,7 +61,9 @@ public class AddExpenseActivity extends AppCompatActivity {
         final Notification notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(android.R.drawable.ic_menu_report_image)
                 .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_description) + " " + getMinimumForSendingNotificationfromSettings() + Constants.EURO)
+                .setContentText(
+                        getString(R.string.notification_description)
+                                + " " + getMinimumForSendingNotificationfromSettings() + Constants.EURO)
                 .build();
         final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
@@ -88,7 +90,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private float getMinimumForSendingNotificationfromSettings() {
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return Float.parseFloat(sharedPrefs.getString(SettingsActivity.PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY, Constants.MINIMUM_FOR_SENDING_NOTIFICATION_TEXT));
+        return Float.parseFloat(sharedPrefs
+                .getString(SettingsActivity.PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY, Constants.MINIMUM_FOR_SENDING_NOTIFICATION_TEXT));
 
     }
 }

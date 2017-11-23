@@ -119,7 +119,8 @@ public class MainActivity extends AppCompatActivity
 
     private float getTotalAvailableFromSettings() {
         final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        return Float.parseFloat(sharedPrefs.getString(SettingsActivity.PREFERENCES_TOTAL_AVAILABLE_KEY, Constants.TOTAL_AVAILABLE_DEFAULT_VALUE_TEXT));
+        return Float.parseFloat(sharedPrefs
+                .getString(SettingsActivity.PREFERENCES_TOTAL_AVAILABLE_KEY, Constants.TOTAL_AVAILABLE_DEFAULT_VALUE_TEXT));
     }
 
     private void getWidgets() {
