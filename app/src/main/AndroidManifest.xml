@@ -23,7 +23,15 @@
             android:name=".activity.AddExpenseActivity"
             android:label="@string/title_activity_add_expense"
             android:theme="@style/addExpense" />
-        <activity android:name=".activity.StadisticsActivity"></activity>
+        <activity android:name=".activity.StadisticsActivity" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cristina.asensio.mybudget.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

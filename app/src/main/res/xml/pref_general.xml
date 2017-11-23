@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="@string/settings_default_value"
+        android:summary="@string/settings_default_value_summary"
+        android:inputType="number"
+        android:key="preferences_total_available"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/settings_total_available_title" />
+
+</PreferenceScreen>

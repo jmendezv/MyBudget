@@ -3,7 +3,9 @@ package cristina.asensio.mybudget.activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -59,7 +61,9 @@ public class AddExpenseActivity extends AppCompatActivity {
         final Notification notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(android.R.drawable.ic_menu_report_image)
                 .setContentTitle(getString(R.string.notification_title))
-                .setContentText(getString(R.string.notification_description) + " " + Constants.MINIMUM_FOR_SENDING_NOTIFICATION + Constants.EURO)
+                .setContentText(
+                        getString(R.string.notification_description)
+                                + " " + getMinimumForSendingNotificationfromSettings() + Constants.EURO)
                 .build();
         final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, notification);
@@ -79,9 +83,15 @@ public class AddExpenseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        // TODO: Retrieve the minimum quantity from settings
-        if(getTotalAvailableQuantity() < Constants.MINIMUM_FOR_SENDING_NOTIFICATION) {
+        if (getTotalAvailableQuantity() < getMinimumForSendingNotificationfromSettings()) {
             sendNotification();
         }
+    }
+
+    private float getMinimumForSendingNotificationfromSettings() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        return Float.parseFloat(sharedPrefs
+                .getString(SettingsActivity.PREFERENCES_NOTIFICATION_MIN_QUANTITY_KEY, Constants.MINIMUM_FOR_SENDING_NOTIFICATION_TEXT));
+
     }
 }

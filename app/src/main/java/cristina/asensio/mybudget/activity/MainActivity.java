@@ -1,7 +1,9 @@
 package cristina.asensio.mybudget.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -110,9 +112,15 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         setSupportActionBar(this.toolbar);
         setNavigationDrawer(this.toolbar);
-        this.totalAvailable = Constants.TOTAL_AVAILABLE_DEFAULT_VALUE;
+        this.totalAvailable = getTotalAvailableFromSettings();
         this.expenseAdapter = new ExpenseAdapter(this, this.expenses);
         this.lvExpenses.setAdapter(this.expenseAdapter);
+    }
+
+    private float getTotalAvailableFromSettings() {
+        final SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        return Float.parseFloat(sharedPrefs
+                .getString(SettingsActivity.PREFERENCES_TOTAL_AVAILABLE_KEY, Constants.TOTAL_AVAILABLE_DEFAULT_VALUE_TEXT));
     }
 
     private void getWidgets() {
@@ -148,7 +156,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            //TODO: Go to Settings
+            final Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
+            startActivity(settingsIntent);
             return true;
         }
 
